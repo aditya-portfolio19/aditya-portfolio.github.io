@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aditya Tiwari — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0A0A0A;
+  --surface: #111111;
+  --surface2: #181818;
+  --border: #222222;
+  --accent: #E8622A;
+  --accent2: #F0A500;
+  --text: #F0EDE8;
+  --muted: #888880;
+  --dim: #444440;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+/* ── NOISE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.4;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 60px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(12px);
+}
+
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.12em;
+  color: var(--text);
+}
+
+.nav-logo span { color: var(--accent); }
+
+.nav-links {
+  display: flex;
+  gap: 36px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--accent); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 120px 60px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.3;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+}
+
+.hero-glow {
+  position: absolute;
+  top: 20%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(232,98,42,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid rgba(232,98,42,0.3);
+  padding: 6px 14px;
+  border-radius: 2px;
+  margin-bottom: 32px;
+  animation: fadeUp 0.6s ease both;
+}
+
+.hero-tag::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.hero-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(72px, 12vw, 140px);
+  line-height: 0.88;
+  letter-spacing: 0.02em;
+  margin-bottom: 28px;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+
+.hero-name .line2 { color: var(--accent); }
+
+.hero-desc {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--muted);
+  max-width: 520px;
+  font-weight: 300;
+  margin-bottom: 48px;
+  animation: fadeUp 0.6s 0.2s ease both;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 48px;
+  animation: fadeUp 0.6s 0.3s ease both;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 42px;
+  color: var(--text);
+  line-height: 1;
+}
+
+.stat-num span { color: var(--accent); }
+
+.stat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 40px;
+  left: 60px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--dim);
+  animation: fadeUp 0.6s 0.5s ease both;
+}
+
+.scroll-line {
+  width: 40px;
+  height: 1px;
+  background: var(--dim);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── SECTIONS ── */
+section {
+  padding: 100px 60px;
+  border-top: 1px solid var(--border);
+}
+
+.section-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 60px;
+}
+
+.eyebrow-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+}
+
+.eyebrow-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.eyebrow-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(40px, 6vw, 72px);
+  line-height: 0.9;
+  letter-spacing: 0.02em;
+  margin-bottom: 16px;
+}
+
+.section-title span { color: var(--accent); }
+
+/* ── SERVICES ── */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 60px;
+}
+
+.service-card {
+  background: var(--surface);
+  padding: 40px 36px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+  cursor: default;
+}
+
+.service-card:hover { background: var(--surface2); }
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s;
+}
+
+.service-card:hover::before { transform: scaleX(1); }
+
+.service-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  margin-bottom: 24px;
+}
+
+.service-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+
+.service-desc {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--muted);
+  font-weight: 300;
+}
+
+.service-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 24px;
+}
+
+.tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dim);
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  border-radius: 2px;
+}
+
+/* ── CASE STUDIES ── */
+.case-study {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin-bottom: 2px;
+}
+
+.case-study:last-child { margin-bottom: 0; }
+
+.case-left {
+  background: var(--surface);
+  padding: 60px 52px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.case-right {
+  background: var(--surface2);
+  padding: 60px 52px;
+}
+
+.case-study:nth-child(even) .case-left { order: 2; }
+.case-study:nth-child(even) .case-right { order: 1; }
+
+.case-index {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.2em;
+  margin-bottom: 8px;
+}
+
+.case-company {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 44px;
+  letter-spacing: 0.03em;
+  line-height: 0.9;
+  margin-bottom: 8px;
+}
+
+.case-type {
+  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+
+.case-desc {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--muted);
+  font-weight: 300;
+}
+
+.case-metrics {
+  display: flex;
+  gap: 32px;
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metric-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  color: var(--accent2);
+  line-height: 1;
+}
+
+.metric-key {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.case-deliverables {
+  margin-bottom: 32px;
+}
+
+.deliverable-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+
+.deliverable-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.deliverable-item:first-of-type { border-top: 1px solid var(--border); }
+
+.d-arrow {
+  color: var(--accent);
+  font-size: 12px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.d-text {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+  font-weight: 300;
+}
+
+.case-platforms {
+  margin-top: 32px;
+}
+
+.platform-tag {
+  display: inline-block;
+  background: rgba(232,98,42,0.08);
+  border: 1px solid rgba(232,98,42,0.2);
+  color: var(--accent);
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  padding: 5px 12px;
+  border-radius: 2px;
+  margin: 4px 4px 0 0;
+}
+
+/* ── ABOUT ── */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+  margin-top: 60px;
+}
+
+.about-text p {
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--muted);
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+
+.about-text p strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.skills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.skill-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skill-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.skill-name {
+  font-size: 13px;
+  color: var(--text);
+  font-weight: 400;
+}
+
+.skill-pct {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--accent);
+}
+
+.skill-track {
+  height: 1px;
+  background: var(--border);
+  position: relative;
+}
+
+.skill-fill {
+  position: absolute;
+  top: 0; left: 0;
+  height: 100%;
+  background: var(--accent);
+  transition: width 1s ease;
+}
+
+/* ── CONTACT ── */
+.contact-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+  margin-top: 60px;
+}
+
+.contact-label-big {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: clamp(28px, 4vw, 48px);
+  line-height: 1.3;
+  color: var(--muted);
+  margin-bottom: 48px;
+}
+
+.contact-label-big strong {
+  color: var(--text);
+  font-style: normal;
+}
+
+.contact-items { display: flex; flex-direction: column; gap: 20px; }
+
+.contact-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.c-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.c-value {
+  font-size: 14px;
+  color: var(--text);
+  font-weight: 400;
+}
+
+/* ── FOOTER ── */
+footer {
+  padding: 32px 60px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-copy {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--dim);
+  letter-spacing: 0.1em;
+}
+
+.footer-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.1em;
+  color: var(--dim);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  nav { padding: 18px 24px; }
+  .nav-links { display: none; }
+  .hero { padding: 100px 24px 60px; }
+  section { padding: 70px 24px; }
+  .services-grid { grid-template-columns: 1fr; }
+  .case-study { grid-template-columns: 1fr; }
+  .case-study:nth-child(even) .case-left { order: unset; }
+  .case-study:nth-child(even) .case-right { order: unset; }
+  .about-grid { grid-template-columns: 1fr; gap: 40px; }
+  .contact-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-stats { gap: 28px; flex-wrap: wrap; }
+  footer { flex-direction: column; gap: 12px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">ADITYA <span>T.</span></div>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Social Media Manager · Available for Work</div>
+    <div class="hero-name">
+      ADITYA<br>
+      <span class="line2">TIWARI</span>
+    </div>
+    <p class="hero-desc">
+      I build social media systems that grow brands — through content strategy, audience psychology, and platform-specific execution. 3+ years. 10+ clients. Real results.
+    </p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">3<span>+</span></div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">10<span>+</span></div>
+        <div class="stat-label">Clients Handled</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Agencies Worked With</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">2</div>
+        <div class="stat-label">Platforms Mastered</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Scroll to explore
+  </div>
+</section>
+
+<section id="services">
+  <div class="section-eyebrow">
+    <span class="eyebrow-num">01</span>
+    <span class="eyebrow-label">What I Do</span>
+    <div class="eyebrow-line"></div>
+  </div>
+  <div class="section-title">CORE<br><span>SERVICES</span></div>
+
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-num">01 —</div>
+      <div class="service-title">Content Strategy</div>
+      <div class="service-desc">Building platform-specific content systems — content calendars, posting frameworks, hook engineering, and retention-first scripting tailored to your audience.</div>
+      <div class="service-tags">
+        <span class="tag">Content Calendar</span>
+        <span class="tag">Hook Writing</span>
+        <span class="tag">Scripting</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">02 —</div>
+      <div class="service-title">Instagram Growth</div>
+      <div class="service-desc">Full-cycle Instagram management — reels strategy, carousel design, caption copywriting, hashtag research, and algorithm-aware posting for consistent organic growth.</div>
+      <div class="service-tags">
+        <span class="tag">Reels</span>
+        <span class="tag">Carousels</span>
+        <span class="tag">Copywriting</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">03 —</div>
+      <div class="service-title">Brand Voice</div>
+      <div class="service-desc">Defining and maintaining a consistent brand identity across all content — tone, visual language, messaging pillars, and audience-specific communication style.</div>
+      <div class="service-tags">
+        <span class="tag">Positioning</span>
+        <span class="tag">Tone of Voice</span>
+        <span class="tag">Messaging</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="section-eyebrow">
+    <span class="eyebrow-num">02</span>
+    <span class="eyebrow-label">Case Studies</span>
+    <div class="eyebrow-line"></div>
+  </div>
+  <div class="section-title">SELECTED<br><span>WORK</span></div>
+
+  <div class="case-study">
+    <div class="case-left">
+      <div>
+        <div class="case-index">Case Study · 01</div>
+        <div class="case-company">FEDITOR</div>
+        <div class="case-type">Post-Production House</div>
+        <div class="case-desc">
+          Feditor is a full-service post-production house offering video editing, color grading, and motion graphics. I managed their social media presence alongside their associated brand Businesszeex — building a content system that positioned them as a premium creative studio.
+        </div>
+      </div>
+      <div class="case-metrics">
+        <div class="metric">
+          <div class="metric-val">2</div>
+          <div class="metric-key">Pages Managed</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val">2+</div>
+          <div class="metric-key">Years Active</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val">↑</div>
+          <div class="metric-key">Inbound Inquiries</div>
+        </div>
+      </div>
+    </div>
+    <div class="case-right">
+      <div class="case-deliverables">
+        <div class="deliverable-label">What I Did</div>
+        <div class="deliverable-item">
+          <span class="d-arrow">▸</span>
+          <span class="d-text">Managed content strategy and scheduling for Feditor and Businesszeex — two distinct brand voices, one consistent system.</span>
+        </div>
+        <div class="deliverable-item">
+          <span class="d-arrow">▸</span>
+          <span class="d-text">Created high-retention reels mixing portfolio showcases, editing tips, and creative psychology content — formats that attracted the right audience.</span>
+        </div>
+        <div class="deliverable-item">
+          <span class="d-arrow">▸</span>
+          <span class="d-text">Analyzed performance data weekly to identify top-performing content types and doubled down on what worked.</span>
+        </div>
+        <div class="deliverable-item">
+          <span class="d-arrow">▸</span>
+          <span class="d-text">Developed social proof content that directly supported the agency's client acquisition pipeline.</span>
+        </div>
+      </div>
+      <div class="case-platforms">
+        <div class="deliverable-label">Platforms</div>
+        <span class="platform-tag">Instagram</span>
+        <span class="platform-tag">Content Strategy</span>
+        <span class="platform-tag">Reels</span>
+        <span class="platform-tag">Brand Management</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="case-study">
+    <div class="case-left">
+      <div>
+        <div class="case-index">Case Study · 02</div>
+        <div class="case-company">SHABD<br>SANCHI</div>
+        <div class="case-type">Media & News Agency · Rewa</div>
+        <div class="case-desc">
+          Shabd Sanchi is a regional media and news agency covering local and national stories. I joined as their Social Media Executive and built their social presence from the ground up — introducing a content structure that matched the pace and credibility of a news brand.
+        </div>
+      </div>
+      <div class="case-metrics">
+        <div class="metric">
+          <div class="metric-val">↑</div>
+          <div class="metric-key">Posting Frequency</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val">1yr</div>
+          <div class="metric-key">Tenure</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val">2</div>
+          <div class="metric-key">Platforms</div>
+        </div>
+      </div>
+    </div>
+    <div class="case-right">
+      <div class="case-deliverables">
+        <div class="deliverable-label">What I Did</div>
+        <div class="deliverable-item">
+          <span class="d-arrow">▸</span>
+          <span class="d-text">Significantly improved posting frequency — built and maintained a consistent publishing schedule aligned with the daily news cycle.</span>
+        </div>
+        <div class="deliverable-item">
+          <span class="d-arrow">▸</span>
+          <span class="d-text">Translated long-form editorial content into short, engaging social-first f
